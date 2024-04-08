@@ -11,7 +11,7 @@ export function DesktopFilter(props: {
   const { items } = props;
   {
     return (
-      <NavbarContent className="hidden sm:flex gap-2 " justify="start">
+      <NavbarContent className="hidden md:flex gap-2 " justify="start">
         <NavbarItem>
           <Autocomplete label="Замовник" className="max-w-xs" size="sm">
             {items.map((item) => (

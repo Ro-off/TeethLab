@@ -6,6 +6,7 @@ export function MobileFilter(props: {
   items: { label: string; value: string }[];
 }) {
   const { items } = props;
+  console.log(items);
 
   const [isFilterOpen] = useState(false);
   const [isFilterFiled] = useState(false);
@@ -15,7 +16,7 @@ export function MobileFilter(props: {
       isIconOnly
       color={isFilterOpen ? "primary" : isFilterFiled ? "secondary" : "default"}
       size="lg"
-      className="sm:hidden"
+      className="md:hidden"
       variant="solid"
     >
       <FilterAlt fill="white" />
