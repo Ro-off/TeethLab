@@ -24,13 +24,13 @@ export function Header() {
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"
         />
-        <NavbarItem>
+        <NavbarItem className="w-64">
           <Input type="search" label="Пошук" size="sm" />
         </NavbarItem>
 
-        <NavbarContent></NavbarContent>
+        {/* <NavbarContent></NavbarContent> */}
 
-        <NavbarContent className="hidden sm:flex gap-4" justify="center">
+        <NavbarContent className="hidden sm:flex gap-4" justify="start">
           <NavbarItem>
             <Autocomplete label="Замовник" className="max-w-xs" size="sm">
               {animals.map((animal) => (
