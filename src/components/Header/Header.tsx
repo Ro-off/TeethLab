@@ -6,31 +6,39 @@ import {
   AutocompleteItem,
   NavbarContent,
   Button,
-  NavbarMenuToggle,
   NavbarMenu,
   NavbarMenuItem,
 } from "@nextui-org/react";
 import { useAnimals } from "../../hooks/useAnimals";
 import { useState } from "react";
+import { FilterAlt } from "../../Icons/FilterAlt";
 
 export function Header() {
   const animals = useAnimals();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isFilterFiled] = useState(false);
 
   return (
     <>
-      <Navbar maxWidth="full" onMenuOpenChange={setIsMenuOpen}>
-        <NavbarMenuToggle
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+      <Navbar maxWidth="full" onMenuOpenChange={setIsFilterOpen}>
+        <Button
+          isIconOnly
+          color={!isFilterFiled && !isFilterOpen ? "default" : "secondary"}
+          aria-label="Filter"
+          size="lg"
           className="sm:hidden"
-        />
-        <NavbarItem className="w-64">
+          variant="solid"
+        >
+          <FilterAlt fill="white" />
+        </Button>
+
+        <NavbarItem className="w-64 justify-self-start">
           <Input type="search" label="Пошук" size="sm" />
         </NavbarItem>
 
         {/* <NavbarContent></NavbarContent> */}
 
-        <NavbarContent className="hidden sm:flex gap-4" justify="start">
+        <NavbarContent className="hidden sm:flex gap-2 " justify="start">
           <NavbarItem>
             <Autocomplete label="Замовник" className="max-w-xs" size="sm">
               {animals.map((animal) => (
@@ -59,7 +67,7 @@ export function Header() {
             </Autocomplete>
           </NavbarItem>
           <NavbarItem>
-            <Autocomplete label="Час прийому" className="max-w-xs" size="sm">
+            <Autocomplete label="Проміжок часу" className="max-w-xs" size="sm">
               {animals.map((animal) => (
                 <AutocompleteItem key={animal.value} value={animal.value}>
                   {animal.label}
@@ -79,7 +87,12 @@ export function Header() {
         <NavbarContent className="hidden sm:flex gap-2" justify="end">
 
           </NavbarContent> */}
-        <Button color="primary" size="lg" variant="shadow">
+        <Button
+          color="primary"
+          size="lg"
+          variant="shadow"
+          className="ml-2 ml-auto"
+        >
           Новий запис
         </Button>
       </Navbar>
