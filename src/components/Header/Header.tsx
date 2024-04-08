@@ -83,10 +83,6 @@ export function Header() {
           </NavbarMenuItem>
         </NavbarMenu>
 
-        {/*         
-        <NavbarContent className="hidden sm:flex gap-2" justify="end">
-
-          </NavbarContent> */}
         <Button
           color="primary"
           size="lg"
