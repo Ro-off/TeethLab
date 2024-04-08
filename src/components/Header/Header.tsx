@@ -9,6 +9,7 @@ import {
 import { useAnimals } from "../../hooks/useAnimals";
 import { DesktopFilter } from "./DesktopFilter/DesktopFilter";
 import { MobileFilter } from "./MobileFilter/MobileFilter";
+import { Plus } from "../../Icons/Plus";
 
 export function Header() {
   const animals = useAnimals();
@@ -17,7 +18,8 @@ export function Header() {
     <>
       <Navbar maxWidth="full">
         <MobileFilter items={animals} />
-        <NavbarItem className="w-64 justify-self-start">
+
+        <NavbarItem className="w-full sm:w-64 justify-self-start">
           <Input type="search" label="Пошук" size="sm" />
         </NavbarItem>
 
@@ -33,9 +35,10 @@ export function Header() {
           color="primary"
           size="lg"
           variant="shadow"
-          className="ml-2 ml-auto"
+          className="ml-2 ml-auto min-w-12 pr-1 pl-1 sm:min-w-32 sm:pr-4 sm:pl-4"
         >
-          Новий запис
+          <p className="hidden sm:block">Новий запис</p>
+          <Plus fill="white" className="md:hidden" />
         </Button>
       </Navbar>
     </>
