@@ -6,7 +6,6 @@ export function MobileFilter(props: {
   items: { label: string; value: string }[];
 }) {
   const { items } = props;
-  console.log(items);
 
   const [isFilterOpen] = useState(false);
   const [isFilterFiled] = useState(false);
@@ -19,7 +18,7 @@ export function MobileFilter(props: {
       className="md:hidden"
       variant="solid"
     >
-      <FilterAlt fill="white" />
+      <FilterAlt className="fill-default-600" />
     </Button>
   );
 }

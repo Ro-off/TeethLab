@@ -14,4 +14,5 @@ export function FilterAlt(props: iconProps): JSX.Element {
 
 type iconProps = {
   fill?: string;
+  className?: string;
 };
