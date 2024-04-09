@@ -10,11 +10,14 @@ import {
 } from "@nextui-org/react";
 
 import { useTableData } from "../../hooks/useTableData";
-import { useState } from "react";
 
-export function JobsTable({ numberOfStrings, offset }: JobsTableProps) {
-  const [stringsLoaded, setStringsLoaded] = useState(numberOfStrings);
-  const tableData = useTableData(offset, stringsLoaded);
+export function JobsTable({
+  numberOfStrings,
+  offset,
+  setOffset,
+}: JobsTableProps) {
+  // const [stringsLoaded, setStringsLoaded] = useState(numberOfStrings);
+  const tableData = useTableData(offset, numberOfStrings);
 
   console.log(tableData);
 
@@ -35,8 +38,7 @@ export function JobsTable({ numberOfStrings, offset }: JobsTableProps) {
 
   function loadMoreTableData() {
     // tableData = [...tableData, ...useTableData(offset, numberOfStrings)];
-    setStringsLoaded(numberOfStrings + stringsLoaded);
-    console.log(stringsLoaded);
+    setOffset(offset + numberOfStrings);
   }
   return (
     <Table
@@ -69,6 +71,7 @@ export function JobsTable({ numberOfStrings, offset }: JobsTableProps) {
 type JobsTableProps = {
   numberOfStrings: number;
   offset: number;
+  setOffset: (offset: number) => void;
 };
 
 type column = {

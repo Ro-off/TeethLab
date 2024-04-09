@@ -7,12 +7,16 @@ import { useState } from "react";
 
 function App() {
   const [numberOfStrings] = useState(5);
-  const [offset] = useState(0);
+  const [offset, setOffset] = useState(0);
   return (
     <>
       <NextUIProvider>
         <Header />
-        <JobsTable numberOfStrings={numberOfStrings} offset={offset} />
+        <JobsTable
+          numberOfStrings={numberOfStrings}
+          offset={offset}
+          setOffset={setOffset}
+        />
       </NextUIProvider>
     </>
   );
