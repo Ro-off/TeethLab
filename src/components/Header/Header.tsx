@@ -14,9 +14,7 @@ import { useBreakpoint } from "../../hooks/useBreakpoint";
 
 export function Header() {
   const animals = useAnimals();
-  const { isSm } = useBreakpoint("sm");
   const { isMd } = useBreakpoint("md");
-  const { isLg } = useBreakpoint("lg");
 
   return (
     <>
