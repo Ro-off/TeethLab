@@ -3,6 +3,7 @@ import {
   AutocompleteItem,
   NavbarItem,
   NavbarContent,
+  DateRangePicker,
 } from "@nextui-org/react";
 
 export function DesktopFilter(props: {
@@ -40,13 +41,11 @@ export function DesktopFilter(props: {
           </Autocomplete>
         </NavbarItem>
         <NavbarItem>
-          <Autocomplete label="Проміжок часу" className="max-w-xs" size="sm">
-            {items.map((item) => (
-              <AutocompleteItem key={item.value} value={item.value}>
-                {item.label}
-              </AutocompleteItem>
-            ))}
-          </Autocomplete>
+          <DateRangePicker
+            label="Проміжок часу"
+            className="max-w-xs"
+            size="sm"
+          />
         </NavbarItem>
       </NavbarContent>
     );
