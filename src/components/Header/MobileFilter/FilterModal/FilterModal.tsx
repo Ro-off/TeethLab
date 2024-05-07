@@ -9,6 +9,7 @@ import {
   AutocompleteItem,
   DateRangePicker,
 } from "@nextui-org/react";
+import { useSearchRequest } from "../../../../hooks/useSearchRequest";
 
 export function FilterModal(props: {
   isOpen: boolean;
@@ -16,6 +17,7 @@ export function FilterModal(props: {
   items: { label: string; value: string }[];
 }) {
   const { isOpen, onOpenChange, items } = props;
+  const { searchRequest, setSearchRequestField } = useSearchRequest();
 
   //   const { onOpenChange } = useDisclosure();
 
@@ -36,6 +38,10 @@ export function FilterModal(props: {
                 className="max-w-xl"
                 size="md"
                 variant="bordered"
+                selectedKey={searchRequest.orderer}
+                onSelectionChange={(value) =>
+                  setSearchRequestField("orderer", String(value))
+                }
               >
                 {items.map((item) => (
                   <AutocompleteItem key={item.value} value={item.value}>
@@ -48,6 +54,10 @@ export function FilterModal(props: {
                 className="max-w-xl"
                 size="md"
                 variant="bordered"
+                selectedKey={searchRequest.patient}
+                onSelectionChange={(value) =>
+                  setSearchRequestField("patient", String(value))
+                }
               >
                 {items.map((item) => (
                   <AutocompleteItem key={item.value} value={item.value}>
@@ -60,6 +70,10 @@ export function FilterModal(props: {
                 className="max-w-xl"
                 size="md"
                 variant="bordered"
+                selectedKey={searchRequest.technician}
+                onSelectionChange={(value) =>
+                  setSearchRequestField("technician", String(value))
+                }
               >
                 {items.map((item) => (
                   <AutocompleteItem key={item.value} value={item.value}>
@@ -72,6 +86,8 @@ export function FilterModal(props: {
                 className="max-w-xl"
                 size="md"
                 variant="bordered"
+                value={searchRequest.dateRange}
+                onChange={(value) => setSearchRequestField("dateRange", value)}
               />
             </ModalBody>
             <ModalFooter>
