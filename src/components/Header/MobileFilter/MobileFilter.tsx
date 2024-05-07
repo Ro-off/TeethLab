@@ -23,7 +23,7 @@ export function MobileFilter(props: {
         size="lg"
         // className="md:hidden"
         variant="solid"
-        onPress={onOpen}
+        onClick={onOpen}
       >
         <FilterAlt className="fill-default-600" />
       </Button>
