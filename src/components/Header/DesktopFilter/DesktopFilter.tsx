@@ -22,7 +22,7 @@ export function DesktopFilter(props: {
             size="sm"
             selectedKey={searchRequest.orderer}
             onSelectionChange={(value) =>
-              setSearchRequestField("orderer", String(value))
+              setSearchRequestField("orderer", value)
             }
           >
             {items.map((item) => (
@@ -39,7 +39,7 @@ export function DesktopFilter(props: {
             size="sm"
             selectedKey={searchRequest.patient}
             onSelectionChange={(value) =>
-              setSearchRequestField("patient", String(value))
+              setSearchRequestField("patient", value)
             }
           >
             {items.map((item) => (
@@ -56,7 +56,7 @@ export function DesktopFilter(props: {
             size="sm"
             selectedKey={searchRequest.technician}
             onSelectionChange={(value) =>
-              setSearchRequestField("technician", String(value))
+              setSearchRequestField("technician", value)
             }
           >
             {items.map((item) => (

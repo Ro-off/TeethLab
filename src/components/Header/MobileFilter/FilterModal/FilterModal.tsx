@@ -40,7 +40,7 @@ export function FilterModal(props: {
                 variant="bordered"
                 selectedKey={searchRequest.orderer}
                 onSelectionChange={(value) =>
-                  setSearchRequestField("orderer", String(value))
+                  setSearchRequestField("orderer", value)
                 }
               >
                 {items.map((item) => (
@@ -56,7 +56,7 @@ export function FilterModal(props: {
                 variant="bordered"
                 selectedKey={searchRequest.patient}
                 onSelectionChange={(value) =>
-                  setSearchRequestField("patient", String(value))
+                  setSearchRequestField("patient", value)
                 }
               >
                 {items.map((item) => (
@@ -72,7 +72,7 @@ export function FilterModal(props: {
                 variant="bordered"
                 selectedKey={searchRequest.technician}
                 onSelectionChange={(value) =>
-                  setSearchRequestField("technician", String(value))
+                  setSearchRequestField("technician", value)
                 }
               >
                 {items.map((item) => (

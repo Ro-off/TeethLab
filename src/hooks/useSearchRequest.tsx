@@ -1,4 +1,5 @@
 import { DateValue } from "@nextui-org/react";
+import { Key } from "react";
 import { createGlobalState } from "react-hooks-global-state";
 
 const initialState = {
@@ -18,7 +19,7 @@ export function useSearchRequest() {
 
   function setSearchRequestField(
     field: string,
-    value: string | null | { start: DateValue | null; end: DateValue | null }
+    value: Key | null | { start: DateValue | null; end: DateValue | null }
   ) {
     setSearchRequest((prev) => ({ ...prev, [field]: value }));
   }
