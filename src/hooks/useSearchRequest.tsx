@@ -5,7 +5,7 @@ import { createGlobalState } from "react-hooks-global-state";
 const initialState = {
   searchRequest: {
     searchString: null,
-    orderer: null,
+    client: null,
     patient: null,
     technician: null,
     dateRange: null,
