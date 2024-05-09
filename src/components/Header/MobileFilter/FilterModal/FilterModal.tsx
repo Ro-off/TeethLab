@@ -38,9 +38,9 @@ export function FilterModal(props: {
                 className="max-w-xl"
                 size="md"
                 variant="bordered"
-                selectedKey={searchRequest.orderer}
+                selectedKey={searchRequest.client}
                 onSelectionChange={(value) =>
-                  setSearchRequestField("orderer", value)
+                  setSearchRequestField("client", value)
                 }
               >
                 {items.map((item) => (

@@ -20,9 +20,9 @@ export function DesktopFilter(props: {
             label="Замовник"
             className="max-w-xs"
             size="sm"
-            selectedKey={searchRequest.orderer}
+            selectedKey={searchRequest.client}
             onSelectionChange={(value) =>
-              setSearchRequestField("orderer", value)
+              setSearchRequestField("client", value)
             }
           >
             {items.map((item) => (
