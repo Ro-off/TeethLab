@@ -8,7 +8,6 @@ import {
   getKeyValue,
   Button,
 } from "@nextui-org/react";
-
 import { useTableData } from "../../hooks/useTableData";
 
 export function JobsTable({
@@ -16,10 +15,7 @@ export function JobsTable({
   offset,
   setOffset,
 }: JobsTableProps) {
-  // const [stringsLoaded, setStringsLoaded] = useState(numberOfStrings);
-  const tableData = useTableData(offset, numberOfStrings);
-
-  console.log(tableData);
+  const { data, isLoading } = useTableData(offset, numberOfStrings);
 
   const columns = [
     {
@@ -37,10 +33,11 @@ export function JobsTable({
   ];
 
   function loadMoreTableData() {
-    // tableData = [...tableData, ...useTableData(offset, numberOfStrings)];
     setOffset(offset + numberOfStrings);
   }
-  return (
+  return isLoading ? (
+    <p>Loading...</p>
+  ) : (
     <Table
       color="primary"
       selectionMode="multiple"
@@ -55,7 +52,7 @@ export function JobsTable({
           <TableColumn key={column.key}>{column.label}</TableColumn>
         )}
       </TableHeader>
-      <TableBody items={tableData}>
+      <TableBody items={data || []}>
         {(item) => (
           <TableRow key={item.id}>
             {(columnKey) => (
@@ -67,7 +64,6 @@ export function JobsTable({
     </Table>
   );
 }
-
 type JobsTableProps = {
   numberOfStrings: number;
   offset: number;
