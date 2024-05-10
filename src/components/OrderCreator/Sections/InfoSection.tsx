@@ -1,8 +1,4 @@
-import {
-  Autocomplete,
-  AutocompleteItem,
-  DateRangePicker,
-} from "@nextui-org/react";
+import { Autocomplete, AutocompleteItem, DatePicker } from "@nextui-org/react";
 
 export function InfoSection() {
   const fieldVariants: Array<"bordered" | "flat" | "underlined" | "faded"> = [
@@ -66,12 +62,14 @@ export function InfoSection() {
           Технік 3
         </AutocompleteItem>
       </Autocomplete>
-      <DateRangePicker
+
+      <DatePicker
         label="Дата процедури"
         labelPlacement="inside"
         className="max-w-xl"
         size="md"
         variant={fieldVariants[0]}
+        isRequired
       />
     </>
   );
