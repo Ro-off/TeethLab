@@ -21,6 +21,7 @@ export function useSearchRequest() {
     field: string,
     value: Key | null | { start: DateValue | null; end: DateValue | null }
   ) {
+    console.log(field, value);
     setSearchRequest((prev) => ({ ...prev, [field]: value }));
   }
   //   console.log(searchRequest);
