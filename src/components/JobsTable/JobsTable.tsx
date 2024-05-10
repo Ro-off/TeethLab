@@ -18,7 +18,6 @@ export function JobsTable({
   offset,
   setOffset,
 }: JobsTableProps) {
-  console.log("JobsTable");
   console.log(
     `numberOfStrings: ${numberOfStrings}, offset: ${offset}, setOffset${setOffset}`
   );
@@ -86,6 +85,9 @@ export function JobsTable({
         cursor || "https://swapi.py4e.com/api/people/?search=",
         { signal }
       );
+      console.log("cursor");
+      console.log(cursor);
+
       const json = await res.json();
 
       setHasMore(json.next !== null);
