@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { db } from "../firebase";
 import {
   getDocs,
@@ -9,28 +8,35 @@ import {
   orderBy,
 } from "firebase/firestore";
 
-export function useRecords(itemToStart: number, recordsLimit: number) {
-  const [records, setRecords] = useState<RecordItem[]>([]); // Specify the type of the records state variable as an array of RecordItem objects
+export function useRecords() {
+  async function getRecords(
+    itemToStart: RecordItem | null,
+    recordsLimit: number
+  ) {
+    const data = await getDocs(
+      query(
+        collection(db, "jobs"),
+        limit(recordsLimit + 1),
+        orderBy("date"),
+        startAfter(itemToStart)
+      )
+    );
+    const records = data.docs.map(
+      (doc) => ({ id: doc.id, ...doc.data() } as RecordItem)
+    ); // Cast the DocumentData objects to RecordItem objects
+    const results = records.slice(0, recordsLimit);
+    const next = records[recordsLimit];
 
-  useEffect(() => {
-    async function getRecords() {
-      const data = await getDocs(
-        query(
-          collection(db, "jobs"),
-          limit(recordsLimit),
-          orderBy("date"),
-          startAfter(itemToStart)
-        )
-      );
-      const records = data.docs.map(
-        (doc) => ({ id: doc.id, ...doc.data() } as RecordItem)
-      ); // Cast the DocumentData objects to RecordItem objects
-      setRecords(records);
-    }
-    getRecords();
-  }, [itemToStart, recordsLimit]);
+    return {
+      count: 2,
+      previous: itemToStart,
+      next: next ? next : null,
+      results,
+    };
+    // return results;
+  }
 
-  return records;
+  return getRecords;
 }
 
 export interface RecordItem {
