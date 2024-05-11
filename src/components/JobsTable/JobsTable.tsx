@@ -22,7 +22,7 @@ export function JobsTable() {
       };
     },
   });
-  console.log(list);
+
   const columns = [
     {
       key: "client",
@@ -46,7 +46,7 @@ export function JobsTable() {
     <Table
       color="primary"
       selectionMode="multiple"
-      defaultSelectedKeys={["2", "3"]}
+      // defaultSelectedKeys={["2", "3"]}
       aria-label="Example static collection table"
       // isHeaderSticky
       classNames={{ base: "max-h-full" }}
