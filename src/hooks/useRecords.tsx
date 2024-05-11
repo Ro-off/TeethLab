@@ -42,17 +42,16 @@ export function useRecords() {
       next: next ? next : null,
       results,
     };
-    // return results;
   }
 
   return getRecords;
 }
 
 export interface RecordItem {
-  id: string;
-  client: string;
-  patient: string;
-  technician: string;
-  date: string;
-  comments: string;
+  id?: string | null;
+  client: string | null;
+  patient: string | null;
+  technician: string | null;
+  date: string | null;
+  comments: string | null;
 }
