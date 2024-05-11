@@ -1,6 +1,18 @@
-import { Autocomplete, AutocompleteItem, DatePicker } from "@nextui-org/react";
+import {
+  Autocomplete,
+  AutocompleteItem,
+  DatePicker,
+  // DateValue,
+} from "@nextui-org/react";
+import { RecordItem } from "../../../hooks/useRecords";
+// import { parseDate } from "@internationalized/date";
 
-export function InfoSection() {
+export function InfoSection(props: {
+  record: RecordItem;
+  setRecord: (record: RecordItem) => void;
+}) {
+  const { record, setRecord } = props;
+
   const fieldVariants: Array<"bordered" | "flat" | "underlined" | "faded"> = [
     "bordered",
     "flat",
@@ -17,6 +29,11 @@ export function InfoSection() {
         className="max-w-xl"
         size="md"
         variant={fieldVariants[0]}
+        selectedKey={record.client}
+        onSelectionChange={(value) =>
+          setRecord({ ...record, client: value as string })
+        }
+        isRequired
       >
         <AutocompleteItem key={"1_Client"} value="1">
           Замовник 1
@@ -34,6 +51,11 @@ export function InfoSection() {
         className="max-w-xl"
         size="md"
         variant={fieldVariants[0]}
+        selectedKey={record.patient}
+        onSelectionChange={(value) =>
+          setRecord({ ...record, patient: value as string })
+        }
+        isRequired
       >
         <AutocompleteItem key={"1_Patient"} value="1">
           Пацієнт 1
@@ -51,6 +73,11 @@ export function InfoSection() {
         className="max-w-xl"
         size="md"
         variant={fieldVariants[0]}
+        selectedKey={record.technician}
+        onSelectionChange={(value) =>
+          setRecord({ ...record, technician: value as string })
+        }
+        isRequired
       >
         <AutocompleteItem key={"1_Technician"} value="1">
           Технік 1
@@ -70,6 +97,8 @@ export function InfoSection() {
         size="md"
         variant={fieldVariants[0]}
         isRequired
+        // value={record.date ? parseDate(record.date) : null}
+        // onChange={(value) => setRecord({ ...record, date: value.toString() })}
       />
     </>
   );
