@@ -29,9 +29,9 @@ export function useRecords() {
     const records = data.docs.map(
       (doc) =>
         ({
-          id: doc.id,
           ...doc.data(),
-          createdAt: conventTimestampToDate(doc.data().date.seconds),
+          id: doc.id,
+          date: conventTimestampToDate(doc.data().date.seconds),
         } as RecordItem)
     ); // Cast the DocumentData objects to RecordItem objects
     const results = records.slice(0, recordsLimit);
@@ -53,11 +53,6 @@ export interface RecordItem {
   client: string;
   patient: string;
   technician: string;
-  createdAt: string;
-  status: string;
-  type: string;
-  dueDate: string;
-  completedDate: string;
-  notes: string;
-  attachments: string[];
+  date: string;
+  comments: string;
 }
