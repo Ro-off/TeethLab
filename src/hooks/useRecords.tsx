@@ -8,6 +8,10 @@ import {
   orderBy,
 } from "firebase/firestore";
 
+function conventTimestampToDate(timestamp: number) {
+  return new Date(timestamp * 1000).toLocaleDateString();
+}
+
 export function useRecords() {
   async function getRecords(
     itemToStart: RecordItem | null,
@@ -21,12 +25,17 @@ export function useRecords() {
         startAfter(itemToStart)
       )
     );
+    // const timestamp = Date.now();
     const records = data.docs.map(
-      (doc) => ({ id: doc.id, ...doc.data() } as RecordItem)
+      (doc) =>
+        ({
+          id: doc.id,
+          ...doc.data(),
+          createdAt: conventTimestampToDate(doc.data().date.seconds),
+        } as RecordItem)
     ); // Cast the DocumentData objects to RecordItem objects
     const results = records.slice(0, recordsLimit);
     const next = records[recordsLimit];
-
     return {
       count: 2,
       previous: itemToStart,

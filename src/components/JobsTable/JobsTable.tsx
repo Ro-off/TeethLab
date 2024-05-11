@@ -13,7 +13,6 @@ import { useRecords } from "../../hooks/useRecords";
 
 export function JobsTable() {
   const getRecords = useRecords();
-
   const list = useAsyncList({
     async load() {
       const res = await getRecords(null, 10);
@@ -36,6 +35,10 @@ export function JobsTable() {
     {
       key: "technician",
       label: "TECHNICIAN",
+    },
+    {
+      key: "createdAt",
+      label: "CREATED AT",
     },
   ];
 
