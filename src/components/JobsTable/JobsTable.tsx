@@ -37,8 +37,8 @@ export function JobsTable() {
       label: "TECHNICIAN",
     },
     {
-      key: "createdAt",
-      label: "CREATED AT",
+      key: "date",
+      label: "DATE",
     },
   ];
 
