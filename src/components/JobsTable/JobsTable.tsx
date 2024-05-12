@@ -12,7 +12,7 @@ import { useAsyncList } from "@react-stately/data";
 import { useRecords } from "../../hooks/useRecords";
 
 export function JobsTable() {
-  const getRecords = useRecords();
+  const { getRecords } = useRecords();
   const list = useAsyncList({
     async load() {
       const res = await getRecords(null, 10);

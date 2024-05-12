@@ -6,12 +6,19 @@ import {
   limit,
   startAfter,
   orderBy,
+  addDoc,
 } from "firebase/firestore";
 
-function conventTimestampToDate(timestamp: number) {
-  return new Date(timestamp * 1000).toLocaleDateString();
-}
+//todo: move to separate hook
+// function conventTimestampToDate(timestamp: number) {
+//   return new Date(timestamp * 1000).toLocaleDateString();
+// }
 
+// function getTimestampFromDate(date: Date) {
+//   return new Date(date).getTime() / 1000;
+// }
+
+const recordsCollectionRef = collection(db, "jobs");
 export function useRecords() {
   async function getRecords(
     itemToStart: RecordItem | null,
@@ -19,7 +26,7 @@ export function useRecords() {
   ) {
     const data = await getDocs(
       query(
-        collection(db, "jobs"),
+        recordsCollectionRef,
         limit(recordsLimit + 1),
         orderBy("date"),
         startAfter(itemToStart)
@@ -31,7 +38,8 @@ export function useRecords() {
         ({
           ...doc.data(),
           id: doc.id,
-          date: conventTimestampToDate(doc.data().date.seconds),
+          //todo: change date format in firebase
+          // date: conventTimestampToDate(doc.data().date.seconds),
         } as RecordItem)
     ); // Cast the DocumentData objects to RecordItem objects
     const results = records.slice(0, recordsLimit);
@@ -44,7 +52,18 @@ export function useRecords() {
     };
   }
 
-  return getRecords;
+  async function createRecord(record: RecordItem) {
+    const serverRecord = {
+      ...record,
+      //todo: change date format in firebase
+      // date: { seconds: getTimestampFromDate(record.date) },
+      comments: record.comments ? record.comments : "",
+    };
+    console.log(serverRecord);
+    await addDoc(recordsCollectionRef, record);
+  }
+
+  return { getRecords, createRecord };
 }
 
 export interface RecordItem {

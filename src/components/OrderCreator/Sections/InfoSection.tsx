@@ -5,7 +5,7 @@ import {
   // DateValue,
 } from "@nextui-org/react";
 import { RecordItem } from "../../../hooks/useRecords";
-// import { parseDate } from "@internationalized/date";
+import { parseDate } from "@internationalized/date";
 
 export function InfoSection(props: {
   record: RecordItem;
@@ -97,8 +97,8 @@ export function InfoSection(props: {
         size="md"
         variant={fieldVariants[0]}
         isRequired
-        // value={record.date ? parseDate(record.date) : null}
-        // onChange={(value) => setRecord({ ...record, date: value.toString() })}
+        value={record.date ? parseDate(record.date) : null}
+        onChange={(value) => setRecord({ ...record, date: value.toString() })}
       />
     </>
   );

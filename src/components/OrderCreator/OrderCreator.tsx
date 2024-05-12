@@ -11,6 +11,7 @@ import { useState } from "react";
 import { InfoSection } from "./Sections/InfoSection";
 import { JobsSection } from "./Sections/JobsSection";
 import { RecordItem } from "../../hooks/useRecords";
+import { useRecords } from "../../hooks/useRecords";
 
 export function OrderCreator(props: {
   isOpen: boolean;
@@ -18,6 +19,7 @@ export function OrderCreator(props: {
   onOpen: () => void;
 }) {
   const { isOpen, onOpenChange } = props;
+  const { createRecord } = useRecords();
 
   const [record, setRecord] = useState<RecordItem>({
     client: null,
@@ -51,7 +53,7 @@ export function OrderCreator(props: {
                 <Button color="danger" variant="light" onPress={onClose}>
                   Відмінити
                 </Button>
-                <Button color="primary" onPress={() => console.log(record)}>
+                <Button color="primary" onPress={() => createRecord(record)}>
                   Створити
                 </Button>
               </ModalFooter>
