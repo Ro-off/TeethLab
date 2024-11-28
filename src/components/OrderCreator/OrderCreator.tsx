@@ -10,6 +10,7 @@ import {
 import { useState } from "react";
 import { InfoSection } from "./Sections/InfoSection";
 import { JobsSection } from "./Sections/JobsSection";
+import { PriceSection } from "./Sections/PriceSection";
 import { RecordItem } from "../../hooks/useRecords";
 import { useRecords } from "../../hooks/useRecords";
 
@@ -46,8 +47,10 @@ export function OrderCreator(props: {
               </ModalHeader>
               <ModalBody>
                 <InfoSection record={record} setRecord={setRecord} />
-                <Divider className="my-4" />
+                <Divider className="my-0" />
                 <JobsSection />
+                <Divider className="my-0" />
+                <PriceSection />
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
