@@ -4,20 +4,20 @@ export function JobsSection() {
     <>
       <h4 className="text-medium font-medium">Дані про роботу</h4>
       <Autocomplete
-        label="Замовник"
+        label="Послуга"
         labelPlacement="inside"
         className="max-w-xl"
         size="md"
         variant="bordered"
       >
-        <AutocompleteItem key={"1_Client"} value="1">
-          Замовник 1
+        <AutocompleteItem key={"1_Service"} value="1">
+          Послуга 1
         </AutocompleteItem>
-        <AutocompleteItem key={"2_Client"} value="2">
-          Замовник 2
+        <AutocompleteItem key={"2_Service"} value="2">
+          Послуга 2
         </AutocompleteItem>
-        <AutocompleteItem key={"3_Client"} value="3">
-          Замовник 3
+        <AutocompleteItem key={"3_Service"} value="3">
+          Послуга 3
         </AutocompleteItem>
       </Autocomplete>
     </>
