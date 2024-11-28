@@ -7,19 +7,19 @@ export function PriceSection() {
   const [course, setCourse] = useState(41);
 
   function changePriceUAH(value: string) {
-    let parsedValue = Number(value) >= 0 ? Number(value) : 0;
+    const parsedValue = Number(value) >= 0 ? Number(value) : 0;
     setPriceUAH(parsedValue);
     setPriceUSD(Math.round(parsedValue / course));
   }
 
   function changePriceUSD(value: string) {
-    let parsedValue = Number(value) >= 0 ? Number(value) : 0;
+    const parsedValue = Number(value) >= 0 ? Number(value) : 0;
     setPriceUSD(parsedValue);
     setPriceUAH(parsedValue * course);
   }
 
   function changeCourse(value: string) {
-    let parsedValue = Number(value) >= 0 ? Number(value) : 0;
+    const parsedValue = Number(value) >= 0 ? Number(value) : 0;
     setCourse(parsedValue);
     setPriceUSD(Math.round(priceUAH / course));
   }
