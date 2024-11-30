@@ -8,30 +8,32 @@ import {
   getKeyValue,
 } from "@nextui-org/react";
 import { useAsyncList } from "@react-stately/data";
-
 import { useRecords } from "../../hooks/useRecords";
+import { useTableDataGenerator } from "../../hooks/useJobsTableRowGenerator";
 
 export function JobsTable() {
   const { getRecords } = useRecords();
+  const { generateJobsTableRows } = useTableDataGenerator();
   const list = useAsyncList({
     async load() {
       const res = await getRecords(null, 10);
+      const row = generateJobsTableRows(res.results);
       console.log(res);
       return {
-        items: res.results,
+        items: row,
       };
     },
   });
 
   const columns = [
     {
-      key: "client",
-      label: "CLIENT",
+      key: "clientPatient",
+      label: "CLIENT/PATiENT",
     },
-    {
-      key: "patient",
-      label: "PATIENT",
-    },
+    // {
+    //   key: "patient",
+    //   label: "PATIENT",
+    // },
     {
       key: "technician",
       label: "TECHNICIAN",
@@ -39,6 +41,10 @@ export function JobsTable() {
     {
       key: "date",
       label: "DATE",
+    },
+    {
+      key: "price",
+      label: "Price",
     },
   ];
 
