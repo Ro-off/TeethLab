@@ -8,6 +8,8 @@ import {
   orderBy,
   addDoc,
 } from "firebase/firestore";
+import { useClients } from "./useClients";
+import { useTechnicians } from "./useTechnicians";
 
 //todo: move to separate hook
 function conventTimestampToDate(timestamp: number) {
@@ -20,6 +22,9 @@ function getTimestampFromDate(date: Date) {
 
 const recordsCollectionRef = collection(db, "jobs");
 export function useRecords() {
+  const { getClientById } = useClients();
+  const { getTechnicianById } = useTechnicians();
+
   async function getRecords(
     itemToStart: RecordItem | null,
     recordsLimit: number
@@ -32,18 +37,31 @@ export function useRecords() {
         startAfter(itemToStart)
       )
     );
+
     // const timestamp = Date.now();
-    const records = data.docs.map(
-      (doc) =>
-        ({
-          ...doc.data(),
-          id: doc.id,
-          //todo: change date format in firebase
-          date: conventTimestampToDate(doc.data().date.seconds),
-        } as RecordItem)
-    ); // Cast the DocumentData objects to RecordItem objects
+    const recordPromises = data.docs.map(async (doc) => {
+      const docData = doc.data();
+      const clientDoc = await getClientById(docData.client_ref.id);
+      const technicianDoc = await getTechnicianById(docData.technican_ref.id);
+
+      return {
+        // ...docData, //!remove after test
+        id: doc.id,
+        client: clientDoc?.name || null,
+        patient: clientDoc?.pattients[docData.patient_id] || null,
+        technician: technicianDoc?.name || null,
+        date: conventTimestampToDate(docData.date.seconds),
+        comments: docData.description || null,
+        priceUah: docData.price_UAH,
+        priceUsd: docData.price_USD,
+      } as RecordItem;
+    });
+
+    const records = await Promise.all(recordPromises);
+
     const results = records.slice(0, recordsLimit);
     const next = records[recordsLimit];
+    console.log(data.docs);
     return {
       count: 2,
       previous: itemToStart,
@@ -73,4 +91,6 @@ export interface RecordItem {
   technician: string | null;
   date: string | null;
   comments: string | null;
+  priceUah: number | JSX.Element | null;
+  priceUsd: number | null;
 }
