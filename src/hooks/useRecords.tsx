@@ -91,6 +91,6 @@ export interface RecordItem {
   technician: string | null;
   date: string | null;
   comments: string | null;
-  priceUah: number | JSX.Element | null;
+  priceUah: number | null;
   priceUsd: number | null;
 }

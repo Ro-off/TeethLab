@@ -8,9 +8,11 @@ import {
 import { useSearchRequest } from "../../../hooks/useSearchRequest";
 
 export function DesktopFilter(props: {
-  items: { label: string; value: string }[];
+  clients: { label: string; value: string }[];
+  technicians: { label: string; value: string }[];
+  patients: { label: string; value: string }[];
 }) {
-  const { items } = props;
+  const { clients, technicians, patients } = props;
   const { searchRequest, setSearchRequestField } = useSearchRequest();
   {
     return (
@@ -25,7 +27,7 @@ export function DesktopFilter(props: {
               setSearchRequestField("client", value)
             }
           >
-            {items.map((item) => (
+            {clients.map((item) => (
               <AutocompleteItem key={item.value} value={item.value}>
                 {item.label}
               </AutocompleteItem>
@@ -38,11 +40,12 @@ export function DesktopFilter(props: {
             className="max-w-xs"
             size="sm"
             selectedKey={searchRequest.patient}
+            isDisabled={searchRequest.client == null}
             onSelectionChange={(value) =>
               setSearchRequestField("patient", value)
             }
           >
-            {items.map((item) => (
+            {patients.map((item) => (
               <AutocompleteItem key={item.value} value={item.value}>
                 {item.label}
               </AutocompleteItem>
@@ -59,7 +62,7 @@ export function DesktopFilter(props: {
               setSearchRequestField("technician", value)
             }
           >
-            {items.map((item) => (
+            {technicians.map((item) => (
               <AutocompleteItem key={item.value} value={item.value}>
                 {item.label}
               </AutocompleteItem>

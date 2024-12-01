@@ -4,9 +4,11 @@ import { FilterAlt } from "../../../Icons/FilterAlt";
 import { FilterModal } from "./FilterModal/FilterModal";
 
 export function MobileFilter(props: {
-  items: { label: string; value: string }[];
+  clients: { label: string; value: string }[];
+  technicians: { label: string; value: string }[];
+  patients: { label: string; value: string }[];
 }) {
-  const { items } = props;
+  const { clients, technicians, patients } = props;
 
   // const [isFilterOpen] = useState(true);
   const { isOpen: isFilterOpen, onOpen, onOpenChange } = useDisclosure();
@@ -30,7 +32,9 @@ export function MobileFilter(props: {
       <FilterModal
         isOpen={isFilterOpen}
         onOpenChange={onOpenChange}
-        items={items}
+        clients={clients}
+        technicians={technicians}
+        patients={patients}
       />
     </>
   );

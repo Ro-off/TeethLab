@@ -14,9 +14,11 @@ import { useSearchRequest } from "../../../../hooks/useSearchRequest";
 export function FilterModal(props: {
   isOpen: boolean;
   onOpenChange: () => void;
-  items: { label: string; value: string }[];
+  clients: { label: string; value: string }[];
+  technicians: { label: string; value: string }[];
+  patients: { label: string; value: string }[];
 }) {
-  const { isOpen, onOpenChange, items } = props;
+  const { isOpen, onOpenChange, clients, technicians, patients } = props;
   const { searchRequest, setSearchRequestField } = useSearchRequest();
 
   //   const { onOpenChange } = useDisclosure();
@@ -43,7 +45,7 @@ export function FilterModal(props: {
                   setSearchRequestField("client", value)
                 }
               >
-                {items.map((item) => (
+                {clients.map((item) => (
                   <AutocompleteItem key={item.value} value={item.value}>
                     {item.label}
                   </AutocompleteItem>
@@ -55,11 +57,12 @@ export function FilterModal(props: {
                 size="md"
                 variant="bordered"
                 selectedKey={searchRequest.patient}
+                isDisabled={searchRequest.client == null}
                 onSelectionChange={(value) =>
                   setSearchRequestField("patient", value)
                 }
               >
-                {items.map((item) => (
+                {patients.map((item) => (
                   <AutocompleteItem key={item.value} value={item.value}>
                     {item.label}
                   </AutocompleteItem>
@@ -75,7 +78,7 @@ export function FilterModal(props: {
                   setSearchRequestField("technician", value)
                 }
               >
-                {items.map((item) => (
+                {technicians.map((item) => (
                   <AutocompleteItem key={item.value} value={item.value}>
                     {item.label}
                   </AutocompleteItem>
