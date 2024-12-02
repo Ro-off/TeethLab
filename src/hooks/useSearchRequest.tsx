@@ -1,4 +1,4 @@
-import { DateValue } from "@nextui-org/react";
+import { DateValue, RangeValue } from "@nextui-org/react";
 import { Key } from "react";
 import { createGlobalState } from "react-hooks-global-state";
 
@@ -8,10 +8,7 @@ const initialState = {
     client: null as string | null,
     patient: null as string | null,
     technician: null as string | null,
-    dateRange: null as {
-      start: DateValue | null;
-      end: DateValue | null;
-    } | null,
+    dateRange: null as RangeValue<DateValue> | null,
   },
 };
 
