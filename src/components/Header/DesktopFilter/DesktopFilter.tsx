@@ -75,12 +75,7 @@ export function DesktopFilter(props: {
             className="max-w-xs"
             size="sm"
             value={searchRequest.dateRange}
-            onChange={(value) =>
-              setSearchRequestField("dateRange", {
-                start: value.start,
-                end: value.end,
-              })
-            }
+            onChange={(value) => setSearchRequestField("dateRange", value)}
           />
         </NavbarItem>
       </NavbarContent>

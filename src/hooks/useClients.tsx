@@ -7,9 +7,11 @@ export function useClients() {
     const clientRef = doc(db, "clients", id);
     const clientDoc = await getDoc(clientRef);
     return clientDoc.data();
+    console.log("sended request");
   }, []);
 
   const getAllClients = useCallback(async () => {
+    console.log("sended request - getAllClients");
     const clientCollectionRef = collection(db, "clients");
     const querySnapshot = await getDocs(query(clientCollectionRef));
     const docArray = querySnapshot.docs.map((doc) => ({

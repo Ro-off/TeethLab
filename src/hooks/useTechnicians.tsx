@@ -3,6 +3,7 @@ import { getDoc, doc, query, getDocs, collection } from "firebase/firestore";
 import { useCallback } from "react";
 
 export function useTechnicians() {
+  console.log("sended request");
   const getTechnicianById = useCallback(async (id: string) => {
     const techniciansRef = doc(db, "technicians", id);
     const technicianDoc = await getDoc(techniciansRef);
@@ -10,6 +11,7 @@ export function useTechnicians() {
   }, []);
 
   const getAllTechnicians = useCallback(async () => {
+    console.log("sended request - getAllTechnicians");
     const clientCollectionRef = collection(db, "technicians");
     const querySnapshot = await getDocs(query(clientCollectionRef));
     const docArray = querySnapshot.docs.map((doc) => ({

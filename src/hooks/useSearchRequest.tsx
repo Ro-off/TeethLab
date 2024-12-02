@@ -4,11 +4,14 @@ import { createGlobalState } from "react-hooks-global-state";
 
 const initialState = {
   searchRequest: {
-    searchString: null,
-    client: null,
-    patient: null,
-    technician: null,
-    dateRange: null,
+    searchString: null as string | null,
+    client: null as string | null,
+    patient: null as string | null,
+    technician: null as string | null,
+    dateRange: null as {
+      start: DateValue | null;
+      end: DateValue | null;
+    } | null,
   },
 };
 
@@ -21,17 +24,21 @@ export function useSearchRequest() {
     field: string,
     value: Key | null | { start: DateValue | null; end: DateValue | null }
   ) {
-    console.log(field, value);
-    if (field === "client" && value === null) {
+    console.log("Setting search request field:", field, value);
+
+    if (field === "client") {
+      if (value === searchRequest.client) return;
+
       setSearchRequest((prev) => ({
         ...prev,
-        client: null,
+        client: value as string | null,
         patient: null,
       }));
+      return;
     }
+
     setSearchRequest((prev) => ({ ...prev, [field]: value }));
   }
-  //   console.log(searchRequest);
 
   return { searchRequest, setSearchRequestField };
 }

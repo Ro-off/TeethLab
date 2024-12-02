@@ -28,6 +28,8 @@ export function OrderCreator(props: {
     technician: null,
     date: null,
     comments: null,
+    priceUah: null,
+    priceUsd: null,
   });
 
   return (

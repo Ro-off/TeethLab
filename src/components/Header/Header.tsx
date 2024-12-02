@@ -14,7 +14,7 @@ import { OrderCreator } from "../OrderCreator/OrderCreator";
 import { useDisclosure } from "@nextui-org/react";
 import { useClients } from "../../hooks/useClients";
 import { useTechnicians } from "../../hooks/useTechnicians";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { usePatients } from "../../hooks/usePatients";
 import { useSearchRequest } from "../../hooks/useSearchRequest";
 
@@ -26,47 +26,61 @@ export function Header() {
   const { getAllPatientsByClientId } = usePatients();
   const { searchRequest } = useSearchRequest();
 
-  const [clients, setClients] = useState<
-    Array<{ label: string; value: string }>
-  >([]);
+  const [data, setData] = useState<{
+    clients: Array<{ label: string; value: string }>;
+    technicians: Array<{ label: string; value: string }>;
+    patients: Array<{ label: string; value: string }>;
+  }>({
+    clients: [],
+    technicians: [],
+    patients: [],
+  });
 
-  const [technicians, setTechnicians] = useState<
-    Array<{ label: string; value: string }>
-  >([]);
-
-  const [patients, setPatients] = useState<
-    Array<{ label: string; value: string }>
-  >([]);
+  // Використовуємо useRef для відстеження першого рендеру
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const clientsResult = await getAllClients();
-      const techniciansResult = await getAllTechnicians();
-      if (searchRequest.client != null) {
+    // Завантажуємо клієнтів і техніків тільки один раз при першому рендері
+    if (isFirstRender.current) {
+      const loadInitialData = async () => {
+        console.log("Initial load");
+        const clientsResult = await getAllClients();
+        const techniciansResult = await getAllTechnicians();
+        setData((prev) => ({
+          ...prev,
+          clients: clientsResult,
+          technicians: techniciansResult,
+        }));
+      };
+      loadInitialData();
+      isFirstRender.current = false;
+    }
+  }, [getAllClients, getAllTechnicians]);
+
+  // Окремий useEffect тільки для пацієнтів
+  useEffect(() => {
+    const loadPatients = async () => {
+      if (searchRequest.client) {
         const patientsResult = await getAllPatientsByClientId(
           searchRequest.client
         );
-        setPatients(patientsResult);
+        setData((prev) => ({
+          ...prev,
+          patients: patientsResult,
+        }));
       }
-      setClients(clientsResult);
-      setTechnicians(techniciansResult);
     };
-    fetchData();
-  }, [
-    getAllClients,
-    getAllTechnicians,
-    getAllPatientsByClientId,
-    searchRequest,
-  ]);
+    loadPatients();
+  }, [searchRequest.client, getAllPatientsByClientId]);
 
   return (
     <>
       <Navbar maxWidth="full">
         {!isMd && (
           <MobileFilter
-            clients={clients}
-            technicians={technicians}
-            patients={patients}
+            clients={data.clients}
+            technicians={data.technicians}
+            patients={data.patients}
           />
         )}
 
@@ -75,9 +89,9 @@ export function Header() {
         </NavbarItem>
 
         <DesktopFilter
-          clients={clients}
-          technicians={technicians}
-          patients={patients}
+          clients={data.clients}
+          technicians={data.technicians}
+          patients={data.patients}
         />
 
         <NavbarMenu>
