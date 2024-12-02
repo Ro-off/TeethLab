@@ -22,6 +22,13 @@ export function useSearchRequest() {
     value: Key | null | { start: DateValue | null; end: DateValue | null }
   ) {
     console.log(field, value);
+    if (field === "client" && value === null) {
+      setSearchRequest((prev) => ({
+        ...prev,
+        client: null,
+        patient: null,
+      }));
+    }
     setSearchRequest((prev) => ({ ...prev, [field]: value }));
   }
   //   console.log(searchRequest);
