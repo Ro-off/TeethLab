@@ -12,8 +12,8 @@ export function useTechnicians() {
 
   const getAllTechnicians = useCallback(async () => {
     console.log("sended request - getAllTechnicians");
-    const clientCollectionRef = collection(db, "technicians");
-    const querySnapshot = await getDocs(query(clientCollectionRef));
+    const technicianCollectionRef = collection(db, "technicians");
+    const querySnapshot = await getDocs(query(technicianCollectionRef));
     const docArray = querySnapshot.docs.map((doc) => ({
       id: doc.id,
       label: doc.data().name,
