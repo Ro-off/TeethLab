@@ -3,11 +3,11 @@ import { getDoc, getDocs, doc, collection, query } from "firebase/firestore";
 import { useCallback } from "react";
 
 export function useClients() {
+  console.log("sended request");
   const getClientById = useCallback(async (id: string) => {
     const clientRef = doc(db, "clients", id);
     const clientDoc = await getDoc(clientRef);
     return clientDoc.data();
-    console.log("sended request");
   }, []);
 
   const getAllClients = useCallback(async () => {
