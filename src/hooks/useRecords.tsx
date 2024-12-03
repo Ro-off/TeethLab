@@ -7,6 +7,7 @@ import {
   startAfter,
   orderBy,
   addDoc,
+  doc,
 } from "firebase/firestore";
 import { useClients } from "./useClients";
 import { useTechnicians } from "./useTechnicians";
@@ -48,7 +49,7 @@ export function useRecords() {
         // ...docData, //!remove after test
         id: doc.id,
         client: clientDoc?.name || null,
-        patient: clientDoc?.pattients[docData.patient_id] || null,
+        patient: clientDoc?.patients[docData.patient_id] || null,
         technician: technicianDoc?.name || null,
         date: conventTimestampToDate(docData.date.seconds),
         comments: docData.description || null,
@@ -72,7 +73,13 @@ export function useRecords() {
 
   async function createRecord(record: RecordItem) {
     const serverRecord = {
-      ...record,
+      client_ref: doc(db, "clients/" + record.client),
+      technican_ref: doc(db, "technicians/" + record.technician),
+      description: record.comments,
+      patient_id: Number(record.patient),
+      price_UAH: record.priceUah,
+      price_USD: record.priceUsd,
+      procedure: "test", //todo: add procedure
       //todo: change date format in firebase
       date: { seconds: getTimestampFromDate(record.date) },
       comments: record.comments ? record.comments : "",
