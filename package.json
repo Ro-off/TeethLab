@@ -24,6 +24,7 @@
     "react-dom": "^18.2.0",
     "react-hooks-global-state": "^2.1.0",
     "react-responsive": "^10.0.0",
+    "react-to-print": "^3.0.2",
     "teethlab": "file:"
   },
   "devDependencies": {
