@@ -114,6 +114,7 @@ export function Header() {
           isOpen={isOpen}
           onOpen={onOpen}
           onOpenChange={onOpenChange}
+          listData={data}
         />
       </Navbar>
     </>

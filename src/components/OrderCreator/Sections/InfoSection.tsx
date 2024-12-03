@@ -10,8 +10,13 @@ import { parseDate } from "@internationalized/date";
 export function InfoSection(props: {
   record: RecordItem;
   setRecord: (record: RecordItem) => void;
+  listData: {
+    clients: { label: string; value: string }[];
+    technicians: { label: string; value: string }[];
+    patients: { label: string; value: string }[];
+  };
 }) {
-  const { record, setRecord } = props;
+  const { record, setRecord, listData } = props;
 
   const fieldVariants: Array<"bordered" | "flat" | "underlined" | "faded"> = [
     "bordered",
@@ -27,6 +32,7 @@ export function InfoSection(props: {
         label="Замовник"
         labelPlacement="inside"
         className="max-w-xl"
+        defaultItems={listData.clients}
         size="md"
         variant={fieldVariants[0]}
         selectedKey={record.client}
@@ -35,15 +41,9 @@ export function InfoSection(props: {
         }
         isRequired
       >
-        <AutocompleteItem key={"1_Client"} value="1">
-          Замовник 1
-        </AutocompleteItem>
-        <AutocompleteItem key={"2_Client"} value="2">
-          Замовник 2
-        </AutocompleteItem>
-        <AutocompleteItem key={"3_Client"} value="3">
-          Замовник 3
-        </AutocompleteItem>
+        {(client) => (
+          <AutocompleteItem key={client.value}>{client.label}</AutocompleteItem>
+        )}
       </Autocomplete>
       <Autocomplete
         label="Пацієнт"
@@ -51,21 +51,18 @@ export function InfoSection(props: {
         className="max-w-xl"
         size="md"
         variant={fieldVariants[0]}
+        defaultItems={listData.patients}
         selectedKey={record.patient}
         onSelectionChange={(value) =>
           setRecord({ ...record, patient: value as string })
         }
         isRequired
       >
-        <AutocompleteItem key={"1_Patient"} value="1">
-          Пацієнт 1
-        </AutocompleteItem>
-        <AutocompleteItem key={"2_Patient"} value="2">
-          Пацієнт 2
-        </AutocompleteItem>
-        <AutocompleteItem key={"3_Patient"} value="3">
-          Пацієнт 3
-        </AutocompleteItem>
+        {(patient) => (
+          <AutocompleteItem key={patient.value}>
+            {patient.label}
+          </AutocompleteItem>
+        )}
       </Autocomplete>
       <Autocomplete
         label="Технік"
@@ -74,20 +71,17 @@ export function InfoSection(props: {
         size="md"
         variant={fieldVariants[0]}
         selectedKey={record.technician}
+        defaultItems={listData.technicians}
         onSelectionChange={(value) =>
           setRecord({ ...record, technician: value as string })
         }
         isRequired
       >
-        <AutocompleteItem key={"1_Technician"} value="1">
-          Технік 1
-        </AutocompleteItem>
-        <AutocompleteItem key={"2_Technician"} value="2">
-          Технік 2
-        </AutocompleteItem>
-        <AutocompleteItem key={"3_Technician"} value="3">
-          Технік 3
-        </AutocompleteItem>
+        {(technician) => (
+          <AutocompleteItem key={technician.value}>
+            {technician.label}
+          </AutocompleteItem>
+        )}
       </Autocomplete>
 
       <DatePicker
