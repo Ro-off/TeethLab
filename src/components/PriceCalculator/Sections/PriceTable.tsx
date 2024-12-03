@@ -5,38 +5,52 @@ import {
   TableHeader,
   TableRow,
   TableBody,
+  getKeyValue,
 } from "@nextui-org/react";
+import { RecordItem } from "../../../hooks/useRecords";
 
-export function PriceTable() {
+export function PriceTable(props: { items: RecordItem[] }) {
+  const { items } = props;
+
+  const columns = [
+    {
+      key: "clientPatient",
+      label: "CLIENT/PATiENT",
+    },
+    // {
+    //   key: "patient",
+    //   label: "PATIENT",
+    // },
+    {
+      key: "technician",
+      label: "TECHNICIAN",
+    },
+    {
+      key: "date",
+      label: "DATE",
+    },
+    {
+      key: "price",
+      label: "Price",
+    },
+  ];
+
   return (
     <>
       <Table aria-label="Example static collection table">
-        <TableHeader>
-          <TableColumn>NAME</TableColumn>
-          <TableColumn>ROLE</TableColumn>
-          <TableColumn>STATUS</TableColumn>
+        <TableHeader columns={columns}>
+          {(column: column) => (
+            <TableColumn key={column.key}>{column.label}</TableColumn>
+          )}
         </TableHeader>
-        <TableBody>
-          <TableRow key="1">
-            <TableCell>Tony Reichert</TableCell>
-            <TableCell>CEO</TableCell>
-            <TableCell>Active</TableCell>
-          </TableRow>
-          <TableRow key="2">
-            <TableCell>Zoey Lang</TableCell>
-            <TableCell>Technical Lead</TableCell>
-            <TableCell>Paused</TableCell>
-          </TableRow>
-          <TableRow key="3">
-            <TableCell>Jane Fisher</TableCell>
-            <TableCell>Senior Developer</TableCell>
-            <TableCell>Active</TableCell>
-          </TableRow>
-          <TableRow key="4">
-            <TableCell>William Howard</TableCell>
-            <TableCell>Community Manager</TableCell>
-            <TableCell>Vacation</TableCell>
-          </TableRow>
+        <TableBody items={items || []}>
+          {(item) => (
+            <TableRow key={item.id}>
+              {(columnKey) => (
+                <TableCell>{getKeyValue(item, columnKey)}</TableCell>
+              )}
+            </TableRow>
+          )}
         </TableBody>
       </Table>
     </>

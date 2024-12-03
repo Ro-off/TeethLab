@@ -1,27 +1,45 @@
 import { Input } from "@nextui-org/react";
 import { useState } from "react";
+import { RecordItem } from "../../../hooks/useRecords";
 
-export function PriceSection() {
-  const [priceUAH, setPriceUAH] = useState(0);
-  const [priceUSD, setPriceUSD] = useState(0);
+export function PriceSection(props: {
+  record: RecordItem;
+  setRecord: (record: RecordItem) => void;
+}) {
+  // const [priceUAH, setPriceUAH] = useState(0);
+  // const [priceUSD, setPriceUSD] = useState(0);
+
   const [course, setCourse] = useState(41);
+  const { record, setRecord } = props;
 
   function changePriceUAH(value: string) {
     const parsedValue = Number(value) >= 0 ? Number(value) : 0;
-    setPriceUAH(parsedValue);
-    setPriceUSD(Math.round(parsedValue / course));
+    setRecord({
+      ...record,
+      priceUah: parsedValue,
+      priceUsd: Math.round(parsedValue / course),
+    });
   }
 
   function changePriceUSD(value: string) {
     const parsedValue = Number(value) >= 0 ? Number(value) : 0;
-    setPriceUSD(parsedValue);
-    setPriceUAH(parsedValue * course);
+    setRecord({
+      ...record,
+      priceUsd: parsedValue,
+      priceUah: parsedValue * course,
+    });
+    // setRecord({ ...record, priceUah: parsedValue * course });
   }
 
   function changeCourse(value: string) {
     const parsedValue = Number(value) >= 0 ? Number(value) : 0;
     setCourse(parsedValue);
-    setPriceUSD(Math.round(priceUAH / course));
+    if (record.priceUah !== null) {
+      setRecord({
+        ...record,
+        priceUsd: Math.round(record.priceUah / parsedValue),
+      });
+    }
   }
 
   return (
@@ -34,7 +52,7 @@ export function PriceSection() {
           type="number"
           className="max-w-xl"
           variant="bordered"
-          value={priceUAH.toString()}
+          value={record.priceUah ? record.priceUah.toString() : "0"}
           onValueChange={changePriceUAH}
           min={0}
         >
@@ -58,7 +76,7 @@ export function PriceSection() {
           type="number"
           className="max-w-xl"
           variant="bordered"
-          value={priceUSD.toString()}
+          value={record.priceUsd ? record.priceUsd.toString() : "0"}
           onValueChange={changePriceUSD}
           min={0}
         >

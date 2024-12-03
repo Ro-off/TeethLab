@@ -1,7 +1,6 @@
 import { NextUIProvider } from "@nextui-org/react";
 import { Header } from "./components/Header/Header";
 import { JobsTable } from "./components/JobsTable/JobsTable";
-import { PriceCalculator } from "./components/PriceCalculator/PriceCalculator";
 
 function App() {
   return (
@@ -9,7 +8,6 @@ function App() {
       <NextUIProvider>
         <Header />
         <JobsTable />
-        <PriceCalculator />
       </NextUIProvider>
     </>
   );

@@ -10,10 +10,16 @@ import {
 import { useAsyncList } from "@react-stately/data";
 import { useRecords } from "../../hooks/useRecords";
 import { useTableDataGenerator } from "../../hooks/useJobsTableRowGenerator";
+import { useState } from "react";
+import { PriceCalculator } from "../PriceCalculator/PriceCalculator";
 
 export function JobsTable() {
   const { getRecords } = useRecords();
   const { generateJobsTableRows } = useTableDataGenerator();
+
+  const [selectedKeys, setSelectedKeys] = useState(new Set([]));
+  const [selectedItems, setSelectedItems] = useState([]);
+
   const list = useAsyncList({
     async load() {
       const res = await getRecords(null, 10);
@@ -24,6 +30,13 @@ export function JobsTable() {
       };
     },
   });
+
+  function handleSelectionChange(keys: Set<Selection>) {
+    setSelectedKeys(keys);
+    setSelectedItems(
+      Array.from(keys).map((key) => list.items.find((item) => item.id === key))
+    );
+  }
 
   const columns = [
     {
@@ -49,30 +62,34 @@ export function JobsTable() {
   ];
 
   return (
-    <Table
-      color="primary"
-      selectionMode="multiple"
-      // defaultSelectedKeys={["2", "3"]}
-      aria-label="Example static collection table"
-      // isHeaderSticky
-      classNames={{ base: "max-h-full" }}
-      // bottomContent={<Button onPress={loadMoreTableData}>Load more</Button>}
-    >
-      <TableHeader columns={columns}>
-        {(column: column) => (
-          <TableColumn key={column.key}>{column.label}</TableColumn>
-        )}
-      </TableHeader>
-      <TableBody items={list.items || []}>
-        {(item) => (
-          <TableRow key={item.id}>
-            {(columnKey) => (
-              <TableCell>{getKeyValue(item, columnKey)}</TableCell>
-            )}
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+    <>
+      <Table
+        color="primary"
+        selectionMode="multiple"
+        // defaultSelectedKeys={["2", "3"]}
+        aria-label="Example static collection table"
+        // isHeaderSticky
+        classNames={{ base: "max-h-full" }}
+        selectedKeys={Array.from(selectedKeys)}
+        onSelectionChange={handleSelectionChange}
+      >
+        <TableHeader columns={columns}>
+          {(column: column) => (
+            <TableColumn key={column.key}>{column.label}</TableColumn>
+          )}
+        </TableHeader>
+        <TableBody items={list.items || []}>
+          {(item) => (
+            <TableRow key={item.id}>
+              {(columnKey) => (
+                <TableCell>{getKeyValue(item, columnKey)}</TableCell>
+              )}
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+      <PriceCalculator items={selectedItems} />
+    </>
   );
 }
 
