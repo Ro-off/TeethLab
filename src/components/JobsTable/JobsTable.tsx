@@ -7,34 +7,38 @@ import {
   TableCell,
   getKeyValue,
 } from "@nextui-org/react";
-import { useAsyncList } from "@react-stately/data";
+import { useState, useEffect } from "react";
 import { useRecords } from "../../hooks/useRecords";
 import { useTableDataGenerator } from "../../hooks/useJobsTableRowGenerator";
-import { useState } from "react";
+import { useSearchRequest } from "../../hooks/useSearchRequest";
 import { PriceCalculator } from "../PriceCalculator/PriceCalculator";
 
 export function JobsTable() {
   const { getRecords } = useRecords();
   const { generateJobsTableRows } = useTableDataGenerator();
+  const { searchRequest } = useSearchRequest();
 
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
   const [selectedItems, setSelectedItems] = useState([]);
+  const [items, setItems] = useState([]);
+  const [prevSearchRequest, setPrevSearchRequest] = useState(searchRequest);
 
-  const list = useAsyncList({
-    async load() {
-      const res = await getRecords(null, 10);
-      const row = generateJobsTableRows(res.results);
-      console.log(res);
-      return {
-        items: row,
-      };
-    },
-  });
+  useEffect(() => {
+    if (searchRequest !== prevSearchRequest) {
+      async function loadData() {
+        const res = await getRecords(null, 10);
+        const row = generateJobsTableRows(res.results);
+        setItems(row);
+      }
+      loadData();
+      setPrevSearchRequest(searchRequest);
+    }
+  }, [searchRequest, prevSearchRequest, getRecords, generateJobsTableRows]);
 
   function handleSelectionChange(keys: Set<Selection>) {
     setSelectedKeys(keys);
     setSelectedItems(
-      Array.from(keys).map((key) => list.items.find((item) => item.id === key))
+      Array.from(keys).map((key) => items.find((item) => item.id === key))
     );
   }
 
@@ -43,10 +47,6 @@ export function JobsTable() {
       key: "clientPatient",
       label: "CLIENT/PATiENT",
     },
-    // {
-    //   key: "patient",
-    //   label: "PATIENT",
-    // },
     {
       key: "technician",
       label: "TECHNICIAN",
@@ -66,9 +66,7 @@ export function JobsTable() {
       <Table
         color="primary"
         selectionMode="multiple"
-        // defaultSelectedKeys={["2", "3"]}
         aria-label="Example static collection table"
-        // isHeaderSticky
         classNames={{ base: "max-h-full" }}
         selectedKeys={Array.from(selectedKeys)}
         onSelectionChange={handleSelectionChange}
@@ -78,7 +76,7 @@ export function JobsTable() {
             <TableColumn key={column.key}>{column.label}</TableColumn>
           )}
         </TableHeader>
-        <TableBody items={list.items || []}>
+        <TableBody items={items || []}>
           {(item) => (
             <TableRow key={item.id}>
               {(columnKey) => (

@@ -8,9 +8,12 @@ import {
   orderBy,
   addDoc,
   doc,
+  where,
 } from "firebase/firestore";
+
 import { useClients } from "./useClients";
 import { useTechnicians } from "./useTechnicians";
+import { useSearchRequest } from "./useSearchRequest";
 
 //todo: move to separate hook
 function conventTimestampToDate(timestamp: number) {
@@ -22,22 +25,40 @@ function getTimestampFromDate(date: Date) {
 }
 
 const recordsCollectionRef = collection(db, "jobs");
+
 export function useRecords() {
   const { getClientById } = useClients();
   const { getTechnicianById } = useTechnicians();
+  const { searchRequest } = useSearchRequest();
 
   async function getRecords(
     itemToStart: RecordItem | null,
     recordsLimit: number
   ) {
+    const queryConstraints = [
+      limit(recordsLimit + 1),
+      ...buildWhereClause("client_ref", searchRequest.client, (id) =>
+        doc(db, `clients/${id}`)
+      ),
+      ...buildWhereClause("patient_id", searchRequest.patient, Number),
+      ...buildWhereClause("technican_ref", searchRequest.technician, (id) =>
+        doc(db, `technicians/${id}`)
+      ),
+    ];
+
+    function buildWhereClause(
+      field: string,
+      value: string | null,
+      transform: (val: string) => any
+    ) {
+      return value ? [where(field, "==", transform(value))] : [];
+    }
+
     const data = await getDocs(
-      query(
-        recordsCollectionRef,
-        limit(recordsLimit + 1),
-        orderBy("date"),
-        startAfter(itemToStart)
-      )
+      query(recordsCollectionRef, ...queryConstraints)
     );
+
+    console.log(searchRequest);
 
     // const timestamp = Date.now();
     const recordPromises = data.docs.map(async (doc) => {
@@ -46,7 +67,6 @@ export function useRecords() {
       const technicianDoc = await getTechnicianById(docData.technican_ref.id);
 
       return {
-        // ...docData, //!remove after test
         id: doc.id,
         client: clientDoc?.name || null,
         patient: clientDoc?.patients[docData.patient_id] || null,
