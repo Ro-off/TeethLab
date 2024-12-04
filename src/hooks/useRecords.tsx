@@ -1,6 +1,7 @@
 import { db } from "../firebase";
 import {
   getDocs,
+  getDoc, // Add this import
   collection,
   query,
   limit,
@@ -31,27 +32,52 @@ export function useRecords() {
   const { getTechnicianById } = useTechnicians();
   const { searchRequest } = useSearchRequest();
 
-  async function getRecords(
-    itemToStart: RecordItem | null,
-    recordsLimit: number
-  ) {
-    const queryConstraints = [
-      limit(recordsLimit + 1),
-      ...buildWhereClause("client_ref", searchRequest.client, (id) =>
-        doc(db, `clients/${id}`)
-      ),
-      ...buildWhereClause("patient_id", searchRequest.patient, Number),
-      ...buildWhereClause("technican_ref", searchRequest.technician, (id) =>
-        doc(db, `technicians/${id}`)
-      ),
-    ];
+  async function getRecords(lastItemId: string | null, recordsLimit: number) {
+    // Start with basic query constraints
+    const queryConstraints = [orderBy("date.seconds", "desc")];
 
-    function buildWhereClause(
-      field: string,
-      value: string | null,
-      transform: (val: string) => any
-    ) {
-      return value ? [where(field, "==", transform(value))] : [];
+    // Add filters based on what's selected
+    if (searchRequest.client) {
+      queryConstraints.push(
+        where("client_ref", "==", doc(db, "clients", searchRequest.client))
+      );
+    } else if (searchRequest.technician) {
+      queryConstraints.push(
+        where(
+          "technican_ref",
+          "==",
+          doc(db, "technicians", searchRequest.technician)
+        )
+      );
+    } else if (searchRequest.patient) {
+      queryConstraints.push(
+        where("patient_id", "==", Number(searchRequest.patient))
+      );
+    }
+
+    // Add date range last
+    if (searchRequest.dateRange?.start && searchRequest.dateRange?.end) {
+      const startDate = getTimestampFromDate(
+        searchRequest.dateRange.start.toDate()
+      );
+      const endDate = getTimestampFromDate(
+        searchRequest.dateRange.end.toDate()
+      );
+      queryConstraints.push(
+        where("date.seconds", ">=", startDate),
+        where("date.seconds", "<=", endDate)
+      );
+    }
+
+    // Add limit and pagination last
+    queryConstraints.push(limit(recordsLimit + 1));
+
+    if (lastItemId) {
+      const lastDocRef = doc(db, "jobs", lastItemId);
+      const lastDocSnap = await getDoc(lastDocRef);
+      if (lastDocSnap.exists()) {
+        queryConstraints.push(startAfter(lastDocSnap));
+      }
     }
 
     const data = await getDocs(
@@ -79,15 +105,11 @@ export function useRecords() {
     });
 
     const records = await Promise.all(recordPromises);
-
     const results = records.slice(0, recordsLimit);
-    const next = records[recordsLimit];
-    console.log(data.docs);
+
     return {
-      count: 2,
-      previous: itemToStart,
-      next: next ? next : null,
       results,
+      hasMore: records.length > recordsLimit,
     };
   }
 

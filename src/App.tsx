@@ -5,7 +5,7 @@ import { JobsTable } from "./components/JobsTable/JobsTable";
 function App() {
   return (
     <>
-      <NextUIProvider>
+      <NextUIProvider className="h-[100vh]">
         <Header />
         <JobsTable />
       </NextUIProvider>
