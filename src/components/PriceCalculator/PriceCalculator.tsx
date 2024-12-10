@@ -18,6 +18,7 @@ export function PriceCalculator(props: { items: RecordItem[] }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const { items } = props;
+  console.log(items);
 
   const totalSumUAH = items.reduce((acc, item) => acc + item.priceUah, 0);
   const totalSumUSD = items.reduce((acc, item) => acc + item.priceUsd, 0);

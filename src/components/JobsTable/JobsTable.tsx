@@ -45,6 +45,8 @@ export function JobsTable() {
         technician: item.technician || "",
         date: item.date || "",
         price: item.price,
+        priceUah: item.priceUah,
+        priceUsd: item.priceUsd,
       }));
 
       setItems((prev) => {

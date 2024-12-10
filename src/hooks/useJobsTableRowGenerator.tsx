@@ -20,6 +20,7 @@ export function useTableDataGenerator() {
         </>
       ),
     }));
+    console.log(elemDataArr);
     return elemDataArr;
   }
 
