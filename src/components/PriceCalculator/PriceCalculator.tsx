@@ -32,10 +32,11 @@ export function PriceCalculator(props: { items: RecordItem[] }) {
         onPress={onOpen}
         isIconOnly
         size="lg"
-        color="primary"
+        color={items.length === 0 ? "default" : "primary"}
         // variant=""
         className="fixed right-3 bottom-3"
         variant="shadow"
+        isDisabled={items.length === 0}
       >
         <Stats fill="white" />
       </Button>
