@@ -17,6 +17,8 @@ import { useTechnicians } from "../../hooks/useTechnicians";
 import { useState, useEffect, useRef } from "react";
 import { usePatients } from "../../hooks/usePatients";
 import { useSearchRequest } from "../../hooks/useSearchRequest";
+import { doSignOut } from "../../auth";
+import { LogOut } from "../../Icons/LogOut";
 
 export function Header() {
   const { isMd } = useBreakpoint("md");
@@ -110,6 +112,17 @@ export function Header() {
           <p className="hidden md:block">Новий запис</p>
           <Plus fill="white" className="md:hidden" />
         </Button>
+        <Button
+          color="error"
+          size="sm"
+          variant="shadow"
+          className="ml-2"
+          onPress={doSignOut}
+          isIconOnly
+        >
+          <LogOut />
+        </Button>
+
         <OrderCreator
           isOpen={isOpen}
           onOpen={onOpen}
