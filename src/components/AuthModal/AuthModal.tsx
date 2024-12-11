@@ -7,6 +7,7 @@ import {
   ModalBody,
   ModalFooter,
   Alert,
+  Form,
 } from "@nextui-org/react";
 import { Input } from "@nextui-org/react";
 import { Checkbox } from "@nextui-org/react";
@@ -66,14 +67,19 @@ export function AuthModal() {
         <ModalContent>
           {() => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
-                Авторизація
-              </ModalHeader>
-              <form onSubmit={onSubmit}>
-                <ModalBody>
-                  {errorMessage !== null && (
-                    <Alert color="danger" title={errorMessage} />
-                  )}
+              {" "}
+              <Form onSubmit={onSubmit} validationBehavior="native">
+                <ModalHeader className="flex flex-col gap-1 w-full">
+                  Авторизація
+                </ModalHeader>
+                <ModalBody className="w-full">
+                  {/* {errorMessage !== null && ( */}
+                  <Alert
+                    isVisible={errorMessage !== null}
+                    color="danger"
+                    title={errorMessage}
+                  />
+                  {/* )} */}
 
                   <Input
                     endContent={
@@ -82,8 +88,11 @@ export function AuthModal() {
                     label="Email"
                     placeholder="Введіть ваш email"
                     variant="bordered"
+                    type="email"
+                    errorMessage="Введіть справжній email"
                     value={email}
                     onValueChange={setEmail}
+                    isRequired
                   />
                   <Input
                     endContent={
@@ -95,6 +104,8 @@ export function AuthModal() {
                     variant="bordered"
                     value={password}
                     onValueChange={setPassword}
+                    min={1}
+                    isRequired
                   />
                   <div className="flex py-2 px-1 justify-between">
                     <Checkbox
@@ -109,7 +120,7 @@ export function AuthModal() {
                     </Link>
                   </div>
                 </ModalBody>
-                <ModalFooter>
+                <ModalFooter className="w-full">
                   <Button
                     color="primary"
                     type="submit"
@@ -118,7 +129,7 @@ export function AuthModal() {
                     {isSigningIn ? "Вхід..." : "Увійти"}
                   </Button>
                 </ModalFooter>
-              </form>
+              </Form>
             </>
           )}
         </ModalContent>
