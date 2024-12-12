@@ -149,7 +149,18 @@ export function JobsTable() {
           </TableBody>
         </Table>
       </div>
-      <PriceCalculator items={selectedItems} />
+      <PriceCalculator
+        items={selectedItems.map((item) => ({
+          id: item.id,
+          client: "",
+          patient: "",
+          comments: "",
+          technician: item.technician,
+          date: item.date,
+          priceUah: item.priceUah,
+          priceUsd: item.priceUsd,
+        }))}
+      />
     </>
   );
 }

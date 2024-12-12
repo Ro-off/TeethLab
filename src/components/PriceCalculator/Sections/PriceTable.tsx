@@ -39,7 +39,7 @@ export function PriceTable(props: { items: RecordItem[] }) {
     <>
       <Table aria-label="Example static collection table">
         <TableHeader columns={columns}>
-          {(column: column) => (
+          {(column: { key: string; label: string }) => (
             <TableColumn key={column.key}>{column.label}</TableColumn>
           )}
         </TableHeader>

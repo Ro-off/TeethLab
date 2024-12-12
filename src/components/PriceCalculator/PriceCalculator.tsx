@@ -20,8 +20,14 @@ export function PriceCalculator(props: { items: RecordItem[] }) {
   const { items } = props;
   console.log(items);
 
-  const totalSumUAH = items.reduce((acc, item) => acc + item.priceUah, 0);
-  const totalSumUSD = items.reduce((acc, item) => acc + item.priceUsd, 0);
+  const totalSumUAH = items.reduce(
+    (acc, item) => acc + (item.priceUah ?? 0),
+    0
+  );
+  const totalSumUSD = items.reduce(
+    (acc, item) => acc + (item.priceUsd ?? 0),
+    0
+  );
 
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({ contentRef });

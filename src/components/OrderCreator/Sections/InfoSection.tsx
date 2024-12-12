@@ -92,7 +92,9 @@ export function InfoSection(props: {
         variant={fieldVariants[0]}
         isRequired
         value={record.date ? parseDate(record.date) : null}
-        onChange={(value) => setRecord({ ...record, date: value.toString() })}
+        onChange={(value) =>
+          setRecord({ ...record, date: value?.toString() ?? "" })
+        }
       />
     </>
   );

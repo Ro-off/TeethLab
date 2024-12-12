@@ -5,7 +5,6 @@ import {
   collection,
   query,
   limit,
-  startAfter,
   orderBy,
   addDoc,
   doc,
@@ -34,7 +33,7 @@ export function useRecords() {
 
   async function getRecords(lastItemId: string | null, recordsLimit: number) {
     // Start with basic query constraints
-    const queryConstraints = [orderBy("date.seconds", "desc")];
+    const queryConstraints = [];
 
     // Add filters based on what's selected
     if (searchRequest.client) {
@@ -58,10 +57,10 @@ export function useRecords() {
     // Add date range last
     if (searchRequest.dateRange?.start && searchRequest.dateRange?.end) {
       const startDate = getTimestampFromDate(
-        searchRequest.dateRange.start.toDate()
+        searchRequest.dateRange.start.toDate("UTC")
       );
       const endDate = getTimestampFromDate(
-        searchRequest.dateRange.end.toDate()
+        searchRequest.dateRange.end.toDate("UTC")
       );
       queryConstraints.push(
         where("date.seconds", ">=", startDate),
@@ -69,12 +68,15 @@ export function useRecords() {
       );
     }
 
+    // Add ordering after all filters
+    queryConstraints.push(orderBy("date.seconds", "desc"));
+
     // Add limit and pagination last
     queryConstraints.push(limit(recordsLimit + 1));
 
     if (lastItemId) {
-      const lastDocRef = doc(db, "jobs", lastItemId);
-      const lastDocSnap = await getDoc(lastDocRef);
+      // const lastDocRef = doc(db, "jobs", lastItemId);
+      // const lastDocSnap = await getDoc(lastDocRef);
       // if (lastDocSnap.exists()) {
       //   queryConstraints.push(startAfter(lastDocSnap));
       // }
@@ -123,7 +125,11 @@ export function useRecords() {
       price_USD: record.priceUsd,
       procedure: "test", //todo: add procedure
       //todo: change date format in firebase
-      date: { seconds: getTimestampFromDate(record.date) },
+      date: {
+        seconds: getTimestampFromDate(
+          record.date ? new Date(record.date) : new Date()
+        ),
+      },
       comments: record.comments ? record.comments : "",
     };
     console.log(serverRecord);
