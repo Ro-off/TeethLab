@@ -32,5 +32,7 @@ type searchRequest = {
   client: string | null;
   patient: string | null;
   technician: string | null;
-  dateRange: { start: Date | null; end: Date | null } | null;
+  dateRange: { start: DateValue | null; end: DateValue | null } | null;
 };
+
+import { DateValue } from "@react-types/calendar";
