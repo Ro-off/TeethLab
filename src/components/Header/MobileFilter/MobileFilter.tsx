@@ -11,6 +11,7 @@ export function MobileFilter(props: {
   const { clients, technicians, patients } = props;
 
   // const [isFilterOpen] = useState(true);
+
   const { isOpen: isFilterOpen, onOpen, onOpenChange } = useDisclosure();
 
   const [isFilterFiled] = useState(false);
