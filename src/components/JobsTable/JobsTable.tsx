@@ -32,7 +32,7 @@ export function JobsTable() {
 
     try {
       const lastItemId = lastItem?.id;
-      const res = await getRecords(lastItemId, 15);
+      const res = await getRecords(lastItemId, 150);
 
       if (res.results.length === 0) {
         return; // No more data to load

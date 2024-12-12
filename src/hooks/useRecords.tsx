@@ -75,9 +75,9 @@ export function useRecords() {
     if (lastItemId) {
       const lastDocRef = doc(db, "jobs", lastItemId);
       const lastDocSnap = await getDoc(lastDocRef);
-      if (lastDocSnap.exists()) {
-        queryConstraints.push(startAfter(lastDocSnap));
-      }
+      // if (lastDocSnap.exists()) {
+      //   queryConstraints.push(startAfter(lastDocSnap));
+      // }
     }
 
     const data = await getDocs(
