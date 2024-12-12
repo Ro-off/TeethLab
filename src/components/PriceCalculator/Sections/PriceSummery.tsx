@@ -1,9 +1,6 @@
 import { Card, Divider, CardBody } from "@nextui-org/react";
 
 export function PriceSummery(props: { usdPrice: number; uahPrice: number }) {
-  // const [usdPrice, setUsdPrice] = useState(100);
-  // const [uahPrice, setUahPricw] = useState(10000);
-
   const { usdPrice, uahPrice } = props;
   return (
     <>
