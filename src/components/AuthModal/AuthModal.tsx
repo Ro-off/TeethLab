@@ -14,20 +14,28 @@ import { Checkbox } from "@nextui-org/react";
 import { Link } from "@nextui-org/react";
 import { MailIcon } from "../../Icons/MailIcon";
 import { LockIcon } from "../../Icons/LockIcon";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { doSignInWithEmailAndPassword } from "../../auth";
 import { useAuth } from "../../context/authContext";
 
 export function AuthModal() {
   const { userLoggedIn } = useAuth();
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { onOpenChange } = useDisclosure();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSigningIn, setIsSigningIn] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const onSubmit = async (e) => {
+  interface SignInFormEvent extends React.FormEvent<HTMLFormElement> {
+    preventDefault: () => void;
+  }
+
+  interface AuthError {
+    message: string;
+  }
+
+  const onSubmit = async (e: SignInFormEvent): Promise<void> => {
     e.preventDefault();
     if (!isSigningIn) {
       setIsSigningIn(true);
@@ -37,8 +45,9 @@ export function AuthModal() {
         // Reset form
         setEmail("");
         setPassword("");
-      } catch (error) {
-        setErrorMessage(error.message);
+      } catch (error: unknown) {
+        const authError = error as AuthError;
+        setErrorMessage(authError.message);
       } finally {
         setIsSigningIn(false);
       }

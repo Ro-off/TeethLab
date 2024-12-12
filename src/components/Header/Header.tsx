@@ -113,8 +113,8 @@ export function Header() {
           <Plus fill="white" className="md:hidden" />
         </Button>
         <Button
-          color="error"
-          size="sm"
+          color="default"
+          size="lg"
           variant="shadow"
           className="ml-2"
           onPress={doSignOut}

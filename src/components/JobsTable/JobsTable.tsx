@@ -6,6 +6,7 @@ import {
   TableRow,
   TableCell,
   getKeyValue,
+  Selection,
 } from "@nextui-org/react";
 import { useState, useEffect, useRef } from "react";
 import { useRecords } from "../../hooks/useRecords";
@@ -19,10 +20,20 @@ export function JobsTable() {
   const { generateJobsTableRows } = useTableDataGenerator();
   const { searchRequest } = useSearchRequest();
 
-  const [selectedKeys, setSelectedKeys] = useState(new Set([]));
-  const [selectedItems, setSelectedItems] = useState([]);
-  const [items, setItems] = useState([]);
-  const [lastItem, setLastItem] = useState(null);
+  interface TableItem {
+    id: string;
+    clientPatient: string | JSX.Element;
+    technician: string;
+    date: string;
+    price: string | number | JSX.Element;
+    priceUah: number | null;
+    priceUsd: number | null;
+  }
+
+  const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set([]));
+  const [selectedItems, setSelectedItems] = useState<TableItem[]>([]);
+  const [items, setItems] = useState<TableItem[]>([]);
+  const [lastItem, setLastItem] = useState<{ id: string } | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const tableRef = useRef(null);
 
@@ -31,7 +42,7 @@ export function JobsTable() {
     setIsLoading(true);
 
     try {
-      const lastItemId = lastItem?.id;
+      const lastItemId = lastItem?.id ?? null;
       const res = await getRecords(lastItemId, 150);
 
       if (res.results.length === 0) {
@@ -58,7 +69,10 @@ export function JobsTable() {
         return [...prev, ...uniqueNewItems];
       });
 
-      setLastItem(res.results[res.results.length - 1]);
+      const lastResult = res.results[res.results.length - 1];
+      if (lastResult?.id) {
+        setLastItem({ id: lastResult.id });
+      }
     } finally {
       setIsLoading(false);
     }
@@ -85,11 +99,13 @@ export function JobsTable() {
 
     resetAndLoad();
   }, [searchRequest]);
-
-  function handleSelectionChange(keys: Set<string>) {
-    setSelectedKeys(keys);
+  function handleSelectionChange(keys: Selection) {
+    const selectedKeys = new Set(Array.from(keys).map((key) => String(key)));
+    setSelectedKeys(selectedKeys);
     setSelectedItems(
-      Array.from(keys).map((key) => items.find((item) => item.id === key))
+      Array.from(selectedKeys)
+        .map((key) => items.find((item) => item.id === key))
+        .filter((item): item is TableItem => item !== undefined)
     );
   }
 

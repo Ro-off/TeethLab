@@ -20,8 +20,18 @@ import { usePatients } from "../../hooks/usePatients";
 
 export function OrderCreator(props: {
   isOpen: boolean;
-  onOpenChange: () => void;
+
   onOpen: () => void;
+
+  onOpenChange: () => void;
+
+  listData: {
+    clients: Array<{ label: string; value: string }>;
+
+    technicians: Array<{ label: string; value: string }>;
+
+    patients: Array<{ label: string; value: string }>;
+  };
 }) {
   const { isOpen, onOpenChange } = props;
   const { createRecord } = useRecords();
