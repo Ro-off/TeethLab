@@ -125,7 +125,7 @@ export function JobsTable() {
     { key: "price", label: "PRICE" },
   ];
 
-  const skeletonRows = Array.from({ length: 10 }).map((_, index) => (
+  const skeletonRows = Array.from({ length: 20 }).map((_, index) => (
     <TableRow key={index}>
       <TableCell>
         <Skeleton className="rounded-lg w-fit mb-1">
@@ -158,7 +158,7 @@ export function JobsTable() {
 
   return (
     <>
-      <div ref={tableRef} className="h-[700px] overflow-auto">
+      <div ref={tableRef} className="h-auto overflow-auto">
         <Table
           color="primary"
           selectionMode="multiple"
