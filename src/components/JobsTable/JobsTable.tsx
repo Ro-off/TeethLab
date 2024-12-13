@@ -128,29 +128,29 @@ export function JobsTable() {
   const skeletonRows = Array.from({ length: 20 }).map((_, index) => (
     <TableRow key={index}>
       <TableCell>
-        <Skeleton className="rounded-lg w-fit mb-1">
-          <p>Client name</p>
+        <Skeleton className="rounded-lg w-fit mb-1" isLoaded={!userLoggedIn}>
+          <div className="rounded-lg bg-default h-4 w-20" />
         </Skeleton>
-        <Skeleton className="rounded-lg w-fit">
-          <p>Client name</p>
-        </Skeleton>
-      </TableCell>
-      <TableCell>
-        <Skeleton className="rounded-lg w-fit">
-          <p>Technician name</p>
+        <Skeleton className="rounded-lg w-fit" isLoaded={!userLoggedIn}>
+          <div className="rounded-lg bg-default h-4 w-20" />
         </Skeleton>
       </TableCell>
       <TableCell>
-        <Skeleton className="rounded-lg w-fit">
-          <p>Data</p>
+        <Skeleton className="rounded-lg w-fit" isLoaded={!userLoggedIn}>
+          <div className="rounded-lg bg-default h-4 w-24" />
         </Skeleton>
       </TableCell>
       <TableCell>
-        <Skeleton className="rounded-lg w-fit mb-1">
-          <p>price in uah</p>
+        <Skeleton className="rounded-lg w-fit" isLoaded={!userLoggedIn}>
+          <div className="rounded-lg bg-default h-4 w-20" />
         </Skeleton>
-        <Skeleton className="rounded-lg w-fit">
-          <p>price in usd</p>
+      </TableCell>
+      <TableCell>
+        <Skeleton className="rounded-lg w-fit mb-1" isLoaded={!userLoggedIn}>
+          <div className="rounded-lg bg-default h-4 w-16" />
+        </Skeleton>
+        <Skeleton className="rounded-lg w-fit" isLoaded={!userLoggedIn}>
+          <div className="rounded-lg bg-default h-4 w-16" />
         </Skeleton>
       </TableCell>
     </TableRow>
