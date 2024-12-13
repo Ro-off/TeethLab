@@ -17,6 +17,7 @@ import { useRecords } from "../../hooks/useRecords";
 import { useClients } from "../../hooks/useClients";
 import { useTechnicians } from "../../hooks/useTechnicians";
 import { usePatients } from "../../hooks/usePatients";
+import { useAuth } from "../../context/authContext";
 
 export function OrderCreator(props: {
   isOpen: boolean;
@@ -35,6 +36,7 @@ export function OrderCreator(props: {
 }) {
   const { isOpen, onOpenChange } = props;
   const { createRecord } = useRecords();
+  const { userLoggedIn } = useAuth();
 
   const [record, setRecord] = useState<RecordItem>({
     client: null,
@@ -65,7 +67,7 @@ export function OrderCreator(props: {
 
   useEffect(() => {
     // Завантажуємо клієнтів і техніків тільки один раз при першому рендері
-    if (isFirstRender.current) {
+    if (isFirstRender.current && userLoggedIn) {
       const loadInitialData = async () => {
         console.log("Initial load");
         const clientsResult = await getAllClients();
@@ -79,7 +81,7 @@ export function OrderCreator(props: {
       loadInitialData();
       isFirstRender.current = false;
     }
-  }, [getAllClients, getAllTechnicians]);
+  }, [getAllClients, getAllTechnicians, userLoggedIn]);
 
   // Окремий useEffect тільки для пацієнтів
   useEffect(() => {

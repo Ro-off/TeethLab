@@ -13,7 +13,7 @@ function App() {
       <NextUIProvider className="h-[100vh]">
         <AuthModal />
         <Header />
-        {userLoggedIn && <JobsTable />}
+        <JobsTable />
       </NextUIProvider>
     </>
   );

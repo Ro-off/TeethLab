@@ -6,7 +6,6 @@ import {
   DateRangePicker,
 } from "@nextui-org/react";
 import { useSearchRequest } from "../../../hooks/useSearchRequest";
-
 export function DesktopFilter(props: {
   clients: { label: string; value: string }[];
   technicians: { label: string; value: string }[];
@@ -14,6 +13,7 @@ export function DesktopFilter(props: {
 }) {
   const { clients, technicians, patients } = props;
   const { searchRequest, setSearchRequestField } = useSearchRequest();
+  // const { userLoggedIn } = useAuth();
   {
     return (
       <NavbarContent className="hidden md:flex gap-2" justify="start">
@@ -26,6 +26,7 @@ export function DesktopFilter(props: {
             onSelectionChange={(value) =>
               setSearchRequestField("client", value)
             }
+            // isDisabled={!userLoggedIn}
           >
             {clients.map((item) => (
               <AutocompleteItem key={item.value} value={item.value}>

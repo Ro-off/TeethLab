@@ -19,6 +19,7 @@ import { usePatients } from "../../hooks/usePatients";
 import { useSearchRequest } from "../../hooks/useSearchRequest";
 import { doSignOut } from "../../auth";
 import { LogOut } from "../../Icons/LogOut";
+import { useAuth } from "../../context/authContext";
 
 export function Header() {
   const { isMd } = useBreakpoint("md");
@@ -27,6 +28,7 @@ export function Header() {
   const { getAllTechnicians } = useTechnicians();
   const { getAllPatientsByClientId } = usePatients();
   const { searchRequest } = useSearchRequest();
+  const { userLoggedIn } = useAuth();
 
   const [data, setData] = useState<{
     clients: Array<{ label: string; value: string }>;
@@ -43,7 +45,7 @@ export function Header() {
 
   useEffect(() => {
     // Завантажуємо клієнтів і техніків тільки один раз при першому рендері
-    if (isFirstRender.current) {
+    if (isFirstRender.current && userLoggedIn) {
       const loadInitialData = async () => {
         console.log("Initial load");
         const clientsResult = await getAllClients();
@@ -57,7 +59,7 @@ export function Header() {
       loadInitialData();
       isFirstRender.current = false;
     }
-  }, [getAllClients, getAllTechnicians]);
+  }, [getAllClients, getAllTechnicians, userLoggedIn]);
 
   // Окремий useEffect тільки для пацієнтів
   useEffect(() => {
