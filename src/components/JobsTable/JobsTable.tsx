@@ -175,24 +175,15 @@ export function JobsTable() {
             )}
           </TableHeader>
           <TableBody items={items}>
-            {/* {(item) => (
-              <TableRow key={item.id}>
-                {(columnKey) => (
-                  <TableCell>{getKeyValue(item, columnKey)}</TableCell>
-                )}
-              </TableRow>
-            )} */}
             {isLoading && skeletonRows
               ? skeletonRows
-              : items.map((item) => (
+              : (item) => (
                   <TableRow key={item.id}>
-                    {columns.map((column) => (
-                      <TableCell key={column.key}>
-                        {getKeyValue(item, column.key)}
-                      </TableCell>
-                    ))}
+                    {(columnKey) => (
+                      <TableCell>{getKeyValue(item, columnKey)}</TableCell>
+                    )}
                   </TableRow>
-                ))}
+                )}
           </TableBody>
         </Table>
       </div>
