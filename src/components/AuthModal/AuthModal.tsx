@@ -77,6 +77,11 @@ export function AuthModal() {
           {() => (
             <>
               {" "}
+              <Alert
+                isVisible={true}
+                color="warning"
+                title="test@email.com 123123"
+              />
               <Form onSubmit={onSubmit} validationBehavior="native">
                 <ModalHeader className="flex flex-col gap-1 w-full">
                   Авторизація
